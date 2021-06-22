@@ -9,8 +9,8 @@ public class boxScript : MonoBehaviour
     Stopwatch watchu = new Stopwatch();
     public LayerMask playahmask;
     int ren;
-    float increm = 2.1f;
-    int runtiem = 250;
+    float increm = 2f;
+    int runtiem = 1000;
     void Start()
     {
         spawnBlock();
@@ -24,12 +24,9 @@ public class boxScript : MonoBehaviour
         --> 2.14^3
         Height khung = 38.19 --> 18 cuc 
         */
-        ren = Random.Range(1,4);
-        if (ren <= 2) ren = 2;
-        else ren = 7;
+        ren = Random.Range(1,12);
         blocc = Instantiate(Resources.Load("blocks/" + (ren).ToString())) as GameObject;
-        blocc.transform.position = new Vector3(8.9f, 38.87f, 6.91f);
-        if (ren == 7) blocc.transform.position -= new Vector3(0, increm, 0);
+        blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
     }
 
     // Update is called once per frame
@@ -46,10 +43,7 @@ public class boxScript : MonoBehaviour
 
             blocc.transform.position -= new Vector3(0, increm, 0);
 
-            Vector3 vect = new Vector3(0, increm*2, 0);
-            if (ren == 7) vect = new Vector3(0, increm, 0);
-
-            if (Physics.OverlapSphere(blocc.transform.position - vect, 0.25f).Length > 0)
+            if (Physics.OverlapSphere(blocc.transform.position, 0.25f).Length > 0)
             {
                 blocc.AddComponent(typeof(BoxCollider));
                 BoxCollider hehe = blocc.GetComponent(typeof(BoxCollider)) as BoxCollider;
