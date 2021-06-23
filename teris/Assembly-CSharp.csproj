@@ -47,6 +47,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\scripts\CameraHandle.cs" />
      <Compile Include="Assets\scripts\boxScript.cs" />
  <Reference Include="UnityEngine">
  <HintPath>D:/Unity Hub/2020.3.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
