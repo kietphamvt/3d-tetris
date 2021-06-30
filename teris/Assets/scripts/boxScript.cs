@@ -6,18 +6,29 @@ using UnityEngine;
 public class boxScript : MonoBehaviour
 {
     GameObject blocc;
-    List<GameObject> OldBloccs = new List<GameObject>();
+
+    int so69 = 69;
+    string nulo = "toi biet toi nuq ma";
+
+    //Calculate how much time has passed
     Stopwatch watchu = new Stopwatch();
-    
+
     //Instantiated GameObjects are spawned on default so we dont check collide on default but check on every other layers
     public LayerMask notDefault;
+    //An empty GameObject containing all blocks that have been placed; A list of old blocks
     public GameObject OldBloccFolder;
+    List<GameObject> OldBloccs = new List<GameObject>();
 
-    int ren;
-    float increm = 2.1f;
-    int runtiem = 250;
+    int RandomBlock;
+
+    //The height of which a block drops every runtiem milisecond; the increm is (probably) the dimentions of each 
+    //child block 
+    float increm = 2f;
+    int iterate = 250;
+
     void Start()
     {
+        //Spawn block and start counting time
         spawnBlock();
         watchu.Start();
     }
@@ -29,24 +40,33 @@ public class boxScript : MonoBehaviour
         --> 2.14^3
         Height khung = 38.19 --> 18 cuc 
         */
-        ren = Random.Range(1,10);
-        blocc = Instantiate(Resources.Load("New-Block/" + (ren).ToString())) as GameObject;
+
+        RandomBlock = Random.Range(1, 10);
+
+        //clone new block into blocc from folder Assets/Resources/New-Block & move to top
+        blocc = Instantiate(Resources.Load("New-Block/" + (RandomBlock).ToString())) as GameObject;
         blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void FixedUpdate()
     {
-        if (watchu.ElapsedMilliseconds > runtiem)
+
+        //Move the block down after iterate seconds
+        if (watchu.ElapsedMilliseconds > iterate)
         {
+            //Reset watch
             watchu.Stop(); watchu = new Stopwatch(); watchu.Start();
 
-
+            //If this block when moving down collides with another block
+            //then get all child of this block:
+            //move to OldBloccFolder, change the layer, add Boxcollider, and add to OldBloccs
+            //After that, spawn new block
             if (FallDownCollide(blocc))
             {
                 int n = blocc.transform.childCount;
@@ -64,11 +84,11 @@ public class boxScript : MonoBehaviour
                     child.gameObject.AddComponent(typeof(BoxCollider));
                     OldBloccs.Add(child.gameObject);
                 }
-                print("new blocks");
                 spawnBlock();
             }
             else
             {
+                //If this block doesnt collide, move it down
                 blocc.transform.position -= new Vector3(0, increm, 0);
             }
         }
@@ -76,25 +96,27 @@ public class boxScript : MonoBehaviour
 
     private bool FallDownCollide(GameObject blocc)
     {
-        GameObject tblocc = Instantiate(blocc) as GameObject;
-        tblocc.transform.position -= new Vector3(0, increm, 0);
+        //GameObject tblocc = Instantiate(blocc) as GameObject;
+        //tblocc.transform.position -= new Vector3(0, increm, 0);
 
-        print("fall down collide");
-        bool res = CheckCollision(tblocc);
-        Destroy(tblocc);
-        return res;
+        //print("fall down collide");
+        //bool res = CheckCollision(tblocc);
+        //Destroy(tblocc);
+        return CheckCollision(blocc, new Vector3(0, -increm, 0));
     }
 
-    bool CheckCollision(GameObject blocc)
+    bool CheckCollision(GameObject blocc, Vector3 delta)
     {
+        //Get number of child in block, check all child: position + delta (eg. When moving down delta = -increm)
+        //for each position + delta add an OverlapBox to check if it overlaps another block :)))
         int n = blocc.transform.childCount;
         Transform child = blocc.transform.Find("Cube");
-        if (Physics.OverlapBox(child.position, child.localScale, Quaternion.identity).Length > 0) return true;
+        if (Physics.OverlapBox(child.position + delta, child.localScale / 2, Quaternion.identity).Length > 0) return true;
 
-        for (int i = 1; i<n; ++i)
+        for (int i = 1; i < n; ++i)
         {
             child = blocc.transform.Find("Cube.00" + i.ToString());
-            if (Physics.OverlapBox(child.position, child.localScale, Quaternion.identity).Length > 0) return true;
+            if (Physics.OverlapBox(child.position + delta, child.localScale / 2, Quaternion.identity).Length > 0) return true;
         }
 
         return false;
