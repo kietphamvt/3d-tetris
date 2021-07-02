@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class boxScript : MonoBehaviour
 {
-    GameObject blocc;
+    public GameObject blocc;
 
     int so69 = 69;
     string nulo = "toi biet toi nuq ma";
 
     //Calculate how much time has passed
-    Stopwatch watchu = new Stopwatch();
+    public Stopwatch watchu = new Stopwatch();
 
     //Instantiated GameObjects are spawned on default so we dont check collide on default but check on every other layers
     public LayerMask notDefault;
@@ -23,8 +23,8 @@ public class boxScript : MonoBehaviour
 
     //The height of which a block drops every runtiem milisecond; the increm is (probably) the dimentions of each 
     //child block 
-    float increm = 2f;
-    int iterate = 250;
+    public float increm = 2f;
+    int iterate = 500;
 
     void Start()
     {
@@ -67,34 +67,43 @@ public class boxScript : MonoBehaviour
             //then get all child of this block:
             //move to OldBloccFolder, change the layer, add Boxcollider, and add to OldBloccs
             //After that, spawn new block
-            if (FallDownCollide(blocc))
+            layerChange();
+        }
+    }
+
+    public void layerChange()
+    {
+        //If this block when moving down collides with another block
+        //then get all child of this block:
+        //move to OldBloccFolder, change the layer, add Boxcollider, and add to OldBloccs
+        //After that, spawn new block
+        if (FallDownCollide(blocc))
+        {
+            int n = blocc.transform.childCount;
+            Transform child = blocc.transform.Find("Cube");
+            child.parent = OldBloccFolder.transform;
+            child.gameObject.layer = 6;
+            child.gameObject.AddComponent(typeof(BoxCollider));
+            OldBloccs.Add(child.gameObject);
+
+            for (int i = 1; i < n; ++i)
             {
-                int n = blocc.transform.childCount;
-                Transform child = blocc.transform.Find("Cube");
+                child = blocc.transform.Find("Cube.00" + i.ToString());
                 child.parent = OldBloccFolder.transform;
                 child.gameObject.layer = 6;
                 child.gameObject.AddComponent(typeof(BoxCollider));
                 OldBloccs.Add(child.gameObject);
-
-                for (int i = 1; i < n; ++i)
-                {
-                    child = blocc.transform.Find("Cube.00" + i.ToString());
-                    child.parent = OldBloccFolder.transform;
-                    child.gameObject.layer = 6;
-                    child.gameObject.AddComponent(typeof(BoxCollider));
-                    OldBloccs.Add(child.gameObject);
-                }
-                spawnBlock();
             }
-            else
-            {
-                //If this block doesnt collide, move it down
-                blocc.transform.position -= new Vector3(0, increm, 0);
-            }
+            spawnBlock();
+        }
+        else
+        {
+            //If this block doesnt collide, move it down
+            blocc.transform.position -= new Vector3(0, increm, 0);
         }
     }
 
-    private bool FallDownCollide(GameObject blocc)
+    public bool FallDownCollide(GameObject blocc)
     {
         //GameObject tblocc = Instantiate(blocc) as GameObject;
         //tblocc.transform.position -= new Vector3(0, increm, 0);
@@ -105,7 +114,7 @@ public class boxScript : MonoBehaviour
         return CheckCollision(blocc, new Vector3(0, -increm, 0));
     }
 
-    bool CheckCollision(GameObject blocc, Vector3 delta)
+    public bool CheckCollision(GameObject blocc, Vector3 delta)
     {
         //Get number of child in block, check all child: position + delta (eg. When moving down delta = -increm)
         //for each position + delta add an OverlapBox to check if it overlaps another block :)))
