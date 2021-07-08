@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class moveBlock : MonoBehaviour
 {
+    public float increm = 2f;
     GameObject Target;
     public boxScript box;
     bool blockFall = false;
-    bool[] blockMove = new bool[] { false, false, false, false, false, false, false, false }; //Up, Down, Left, Right x2
+    bool[] blockMove = new bool[] { false, false, false, false, false, false, false, false }; //"up", "down", "left", "right", "w", "s", "a", "d"
+    Vector3[] move;
     string[] name_move = new string[] { "up", "down", "left", "right", "w", "s", "a", "d" };
     int delay = -1;
-    public float increm = 2f;
+    
     Vector3 Up_Down, Left_Right;
     Stopwatch time = new Stopwatch();
 
@@ -22,6 +24,8 @@ public class moveBlock : MonoBehaviour
         box = Target.GetComponent<boxScript>();
         Up_Down = new Vector3(0, 0, increm);
         Left_Right = new Vector3(increm, 0, 0);
+        move = new Vector3[] { new Vector3(0, 0, increm), new Vector3(0, 0, -increm), new Vector3(-increm, 0, 0), new Vector3(increm, 0, 0),
+                               new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 0, -1)};
     }
 
 // Update is called once per frame
@@ -51,65 +55,32 @@ void Update()
             box.layerChange();
             blockFall = false;
         }
-        if (blockMove[0])
+        for (int i=0;i<4;++i)
         {
-            if (!box.CheckCollision(box.blocc, new Vector3(0, 0, increm)))
-                box.blocc.transform.position += new Vector3(0, 0, increm);
-            blockMove[0] = false;
+            if (blockMove[i])
+            {
+                if (!box.CheckCollision(box.blocc, move[i]))
+                    box.blocc.transform.position += move[i];
+                blockMove[i] = false;
+            }
         }
-        if (blockMove[1])
+        for (int i=4;i<blockMove.Length;++i)
         {
-            if (!box.CheckCollision(box.blocc, new Vector3(0, 0, -increm)))
-                box.blocc.transform.position -= new Vector3(0, 0, increm);
-            blockMove[1] = false;
-        }
-        if (blockMove[2])
-        {
-            if (!box.CheckCollision(box.blocc, new Vector3(-increm, 0, 0)))
-                box.blocc.transform.position -= new Vector3(increm, 0, 0);           
-            blockMove[2] = false;
-        }
-        if (blockMove[3])
-        {
-            if (!box.CheckCollision(box.blocc, new Vector3(increm, 0, 0)))
-                box.blocc.transform.position += new Vector3(increm, 0, 0);
-            blockMove[3] = false;
-        }
-        if (blockMove[4])
-        {
-            GameObject t = Instantiate(box.blocc); 
-            t.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
-            if (!box.CheckCollision(t, new Vector3(0, 0, 0)))
-                box.blocc.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
-            blockMove[4] = false;
-            Destroy(t);
-        }
-        if (blockMove[5])
-        {
-            GameObject t = Instantiate(box.blocc);
-            t.transform.Rotate(-90.0f, 0.0f, 0.0f, Space.Self);
-            if (!box.CheckCollision(t, new Vector3(0, 0, 0)))
-                box.blocc.transform.Rotate(-90.0f, 0.0f, 0.0f, Space.Self);
-            blockMove[5] = false;
-            Destroy(t);
-        }
-        if (blockMove[6])
-        {
-            GameObject t = Instantiate(box.blocc);
-            t.transform.Rotate(0.0f, 0.0f, 90.0f, Space.Self);
-            if (!box.CheckCollision(t, new Vector3(0, 0, 0)))
-                box.blocc.transform.Rotate(0.0f, 0.0f, 90.0f, Space.Self);
-            blockMove[6] = false;
-            Destroy(t);
-        }
-        if (blockMove[7])
-        {
-            GameObject t = Instantiate(box.blocc);
-            t.transform.Rotate(0, 0, -90.0f, Space.Self);
-            if (!box.CheckCollision(t, new Vector3(0, 0, 0)))
-                box.blocc.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);
-            blockMove[7] = false;
-            Destroy(t);
+            if (blockMove[i])
+            {
+                GameObject t = Instantiate(box.blocc);
+                Vector3 position = t.GetComponentInChildren<Renderer>().bounds.center;
+                t.transform.RotateAround(position, move[i], 90);
+                //t.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+                if (!box.CheckCollision(t, new Vector3(0, 0, 0)))
+                {
+                    Vector3 p = box.blocc.GetComponentInChildren<Renderer>().bounds.center;
+                    box.blocc.transform.RotateAround(p, move[i], 90);
+                }
+                //box.blocc.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+                blockMove[i] = false;
+                Destroy(t);
+            }
         }
     }
 }
