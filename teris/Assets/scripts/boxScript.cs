@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class boxScript : MonoBehaviour
 {
+    public GameHandler GameHandler;
     //Current block & its childs
     int RandomBlock;
     public GameObject blocc;
@@ -20,7 +21,6 @@ public class boxScript : MonoBehaviour
     public GameObject OldBloccFolder;
     List<GameObject> OldBloccs = new List<GameObject>();
 
-    int tienem500k = 500000;
 
     bool failed = false;
 
@@ -37,11 +37,6 @@ public class boxScript : MonoBehaviour
 
     void spawnBlock()
     {
-        /*2 story block y = 3.12; x = 8.9, z = 6.91; spawn top y=38.87
-        1 story block y = 0.98; 
-        --> 2.14^3
-        Height khung = 38.19 --> 18 cuc 
-        */
 
         //Clone new random block & move to top
         RandomBlock = Random.Range(1, 10);
@@ -58,12 +53,6 @@ public class boxScript : MonoBehaviour
             ChildBloccs.Add(child.gameObject);
         }
     }
-    int tienem500k2 = 500000;
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void FixedUpdate()
     {
@@ -78,7 +67,6 @@ public class boxScript : MonoBehaviour
             layerChange();
         }
     }
-    int tienem500k3 = 500000;
     public void layerChange()
     {
         //If block moving down = collide
@@ -86,7 +74,12 @@ public class boxScript : MonoBehaviour
         {
             do
             {
-                if (blocc.transform.position == new Vector3(0.8f, 40, -0.99f)) { GameOver(); break; }
+                if (blocc.transform.position == new Vector3(0.8f, 40, -0.99f)) 
+                {
+                    failed = true;
+                    FindObjectOfType<GameHandler>().GameOver();
+                    break;
+                }
                 //Get child, save child, spawn new block
                 foreach (GameObject child in ChildBloccs)
                 {
@@ -108,12 +101,6 @@ public class boxScript : MonoBehaviour
             //No collision --> move down
             blocc.transform.position -= new Vector3(0, increm, 0);
         }
-    }
-    int tienem500k4 = 500000;
-    void GameOver()
-    {
-        //lam cl j di ne
-        failed = true;
     }
 
     public bool FallDownCollide(GameObject blocc)
