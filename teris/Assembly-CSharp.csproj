@@ -49,6 +49,7 @@
   <ItemGroup>
      <Compile Include="Assets\scripts\CameraHandle.cs" />
      <Compile Include="Assets\scripts\GameOverScreen.cs" />
+     <Compile Include="Assets\scripts\MenuHandler.cs" />
      <Compile Include="Assets\scripts\boxScript.cs" />
      <Compile Include="Assets\scripts\moveBlock.cs" />
      <Compile Include="Assets\scripts\GameHandler.cs" />
