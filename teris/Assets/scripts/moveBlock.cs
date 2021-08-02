@@ -8,13 +8,13 @@ public class moveBlock : MonoBehaviour
     public float increm = 2f;
     GameObject Target;
     public boxScript box;
+    bool instantDrop = false;
     bool blockFall = false;
     bool[] blockMove = new bool[] { false, false, false, false, false, false, false, false }; //"up", "down", "left", "right", "w", "s", "a", "d"
     Vector3[] move;
     string[] name_move = new string[] { "up", "down", "left", "right", "w", "s", "a", "d" };
     int delay = -1;
     
-    Vector3 Up_Down, Left_Right;
     Stopwatch time = new Stopwatch();
 
     // Start is called before the first frame update
@@ -22,8 +22,6 @@ public class moveBlock : MonoBehaviour
     {
         Target = GameObject.Find("a bokkusu");
         box = Target.GetComponent<boxScript>();
-        Up_Down = new Vector3(0, 0, increm);
-        Left_Right = new Vector3(increm, 0, 0);
         move = new Vector3[] { new Vector3(0, 0, increm), new Vector3(0, 0, -increm), new Vector3(-increm, 0, 0), new Vector3(increm, 0, 0),
                                new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 0, -1)};
     }
@@ -44,6 +42,10 @@ void Update()
             {
                 blockMove[i] = true;
             }
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            instantDrop = true;
         }
     }
     private void FixedUpdate()
@@ -81,6 +83,17 @@ void Update()
                 blockMove[i] = false;
                 Destroy(t);
             }
+        }
+        if (instantDrop)
+        {
+            //GameObject t = Instantiate(box.blocc);
+            Vector3 go = new Vector3(0, -increm, 0);
+            while (box.CheckCollision(box.blocc, go) == false)
+            {
+                box.blocc.transform.position += go;
+            }
+            //box.blocc.transform.position = t.transform.position;
+            instantDrop = false;
         }
     }
 }
