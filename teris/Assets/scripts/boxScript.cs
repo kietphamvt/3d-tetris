@@ -9,7 +9,7 @@ public class boxScript : MonoBehaviour
     //Current block & its childs
     int RandomBlock;
     public GameObject blocc;
-    List<GameObject> ChildBloccs = new List<GameObject>();
+    public List<GameObject> ChildBloccs = new List<GameObject>();
 
     //Calculate time
     public Stopwatch watchu = new Stopwatch();
@@ -63,11 +63,11 @@ public class boxScript : MonoBehaviour
             //Reset watch
             watchu.Stop(); watchu = new Stopwatch(); watchu.Start();
             
-            //Moving block down
-            layerChange();
+            //move block down
+            fall();
         }
     }
-    public void layerChange()
+    public void fall()
     {
         //If block moving down = collide
         if (FallDownCollide(blocc))
@@ -106,10 +106,10 @@ public class boxScript : MonoBehaviour
     public bool FallDownCollide(GameObject blocc)
     {
         //Check collision when moving down
-        return CheckCollision(blocc, new Vector3(0, -increm, 0));
+        return CheckCollision(ChildBloccs, new Vector3(0, -increm, 0));
     }
 
-    public bool CheckCollision(GameObject blocc, Vector3 delta)
+    public bool CheckCollision(List<GameObject> ChildBloccs, Vector3 delta)
     {
         //get child
         foreach (GameObject child in ChildBloccs)

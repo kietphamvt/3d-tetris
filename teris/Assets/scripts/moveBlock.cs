@@ -54,14 +54,14 @@ void Update()
         {
             //box.blocc.transform.position -= new Vector3(0, increm, 0);
             time.Start();
-            box.layerChange();
+            box.fall();
             blockFall = false;
         }
         for (int i=0;i<4;++i)
         {
             if (blockMove[i])
             {
-                if (!box.CheckCollision(box.blocc, move[i]))
+                if (!box.CheckCollision(box.ChildBloccs, move[i]))
                     box.blocc.transform.position += move[i];
                 blockMove[i] = false;
             }
@@ -70,11 +70,24 @@ void Update()
         {
             if (blockMove[i])
             {
-                GameObject t = Instantiate(box.blocc);
+                GameObject t = Instantiate(box.blocc) as GameObject;
                 Vector3 position = t.GetComponentInChildren<Renderer>().bounds.center;
                 t.transform.RotateAround(position, move[i], 90);
+
+                //code der
+                List<GameObject> ChildBloccs = new List<GameObject>();
+                int n = t.transform.childCount;
+                Transform child = t.transform.Find("Cube");
+                ChildBloccs.Add(child.gameObject);
+                for (int buc = 1; buc < n; ++buc)
+                {
+                    child = t.transform.Find("Cube.00" + buc.ToString());
+                    ChildBloccs.Add(child.gameObject);
+                }
+                //code der
+
                 //t.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
-                if (!box.CheckCollision(t, new Vector3(0, 0, 0)))
+                if (!box.CheckCollision(ChildBloccs, new Vector3(0, 0, 0)))
                 {
                     Vector3 p = box.blocc.GetComponentInChildren<Renderer>().bounds.center;
                     box.blocc.transform.RotateAround(p, move[i], 90);
@@ -88,7 +101,7 @@ void Update()
         {
             //GameObject t = Instantiate(box.blocc);
             Vector3 go = new Vector3(0, -increm, 0);
-            while (box.CheckCollision(box.blocc, go) == false)
+            while (box.CheckCollision(box.ChildBloccs, go) == false)
             {
                 box.blocc.transform.position += go;
             }
