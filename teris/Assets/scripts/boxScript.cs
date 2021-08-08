@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
@@ -18,9 +18,9 @@ public class boxScript : MonoBehaviour
     public LayerMask notDefault;
 
     //Contains all old blocks (seperated) as child
-    public GameObject OldBloccFolder;
-    List<GameObject> OldBloccs = new List<GameObject>();
-
+    public GameObject OLDBLOCCFOLDER;
+    List<GameObject> OLDBLOCCS = new List<GameObject>();
+    //ái này là cái ông cần nè, ông có thể dùng theo kiểu lấy từ list (nếu tạo script khác thì làm giống khoa) hoặc là lấy từ cái gameobject (lấy child)
 
     bool failed = false;
 
@@ -84,12 +84,12 @@ public class boxScript : MonoBehaviour
                 foreach (GameObject child in ChildBloccs)
                 {
                     //Change parent, layer of child
-                    child.transform.parent = OldBloccFolder.transform;
+                    child.transform.parent = OLDBLOCCFOLDER.transform;
                     child.layer = 6;
                     //Add collider for collision check
                     child.AddComponent(typeof(BoxCollider));
-                    //Add child to <OldBloccs>
-                    OldBloccs.Add(child);
+                    //Add child to <OLDBLOCCS>
+                    OLDBLOCCS.Add(child);
                 }
                 ChildBloccs = new List<GameObject>();
                 spawnBlock();
