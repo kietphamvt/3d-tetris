@@ -372,8 +372,8 @@ MonoBehaviour:
   ChildBloccs: []
   notDefault:
     serializedVersion: 2
-    m_Bits: 0
-  OldBloccFolder: {fileID: 1089652627}
+    m_Bits: 126
+  OLDBLOCCFOLDER: {fileID: 1089652627}
   increm: 2
 --- !u!114 &399130788
 MonoBehaviour:
