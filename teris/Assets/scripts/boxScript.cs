@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class boxScript : MonoBehaviour
 {
@@ -19,27 +20,29 @@ public class boxScript : MonoBehaviour
 
     //Contains all old blocks (seperated) as child
     public GameObject OLDBLOCCFOLDER;
-    List<GameObject> OLDBLOCCS = new List<GameObject>();
-    //ái này là cái ông cần nè, ông có thể dùng theo kiểu lấy từ list (nếu tạo script khác thì làm giống khoa) hoặc là lấy từ cái gameobject (lấy child)
+    List<GameObject>[] OLDBLOCCS = new List<GameObject>[21];
+    //cái này là cái ông cần nè, ông có thể dùng theo kiểu lấy từ list (nếu tạo script khác thì làm giống khoa) hoặc là lấy từ cái gameobject (lấy child)
 
     bool failed = false;
 
     //How much a block drops after <iterate> seconds
     public float increm = 2f;
-    int iterate = 200;
+    int iterate = 500;
 
     void Start()
     {
         //Spawn block and start time
         spawnBlock();
         watchu.Start();
+        for (int i = 0; i < OLDBLOCCS.Length; i++)
+            OLDBLOCCS[i] = new List<GameObject>();
     }
 
     void spawnBlock()
     {
 
         //Clone new random block & move to top
-        RandomBlock = Random.Range(1, 10);
+        RandomBlock = Random.Range(6,6);
         blocc = Instantiate(Resources.Load("New-Block/" + (RandomBlock).ToString())) as GameObject;
         blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
 
@@ -89,8 +92,10 @@ public class boxScript : MonoBehaviour
                     //Add collider for collision check
                     child.AddComponent(typeof(BoxCollider));
                     //Add child to <OLDBLOCCS>
-                    OLDBLOCCS.Add(child);
+                    int id = (int)(child.transform.position.y / 2);
+                    OLDBLOCCS[id].Add(child);
                 }
+                ClearRow();
                 ChildBloccs = new List<GameObject>();
                 spawnBlock();
             } while (false);
@@ -122,4 +127,20 @@ public class boxScript : MonoBehaviour
         //no collision detected
         return false;
     }
+
+    void ClearRow()
+    {
+        for (int i = 0; i <= 20; ++i)
+        {
+            if (OLDBLOCCS[i].Count == 6)
+            {
+                foreach(GameObject child in OLDBLOCCS[i])
+                {
+                    Destroy(child);
+                }
+                OLDBLOCCS[i].Clear();
+            }
+        }
+    }
+
 }
