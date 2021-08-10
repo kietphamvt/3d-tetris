@@ -389,6 +389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   increm: 2
   box: {fileID: 0}
+  move: []
+  spin: []
 --- !u!1 &494086110
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,6 +496,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 963194227}
+  control: {fileID: 0}
+  increm: 2
 --- !u!4 &667372438
 Transform:
   m_ObjectHideFlags: 0
@@ -769,13 +773,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
   m_LocalPosition: {x: 0, y: 41.2, z: -37.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0

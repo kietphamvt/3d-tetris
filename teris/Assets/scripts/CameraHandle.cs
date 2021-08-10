@@ -15,7 +15,7 @@ public class CameraHandle : MonoBehaviour
     {
         Target = GameObject.Find("a bokkusu");
         control = Target.GetComponent<moveBlock>();
-        cam.transform.localPosition = new Vector3(0f, 25f, -31.8f);
+        cam.transform.localPosition = new Vector3(0f, 41.2f, -31.8f);
         cam.transform.localEulerAngles = new Vector3(20f, 0f, 0f);
         height = 25f;
     }

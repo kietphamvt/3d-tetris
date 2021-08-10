@@ -42,7 +42,7 @@ public class boxScript : MonoBehaviour
     {
 
         //Clone new random block & move to top
-        RandomBlock = Random.Range(8,8);
+        RandomBlock = Random.Range(1,10);
         blocc = Instantiate(Resources.Load("New-Block/" + (RandomBlock).ToString())) as GameObject;
         blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
 
