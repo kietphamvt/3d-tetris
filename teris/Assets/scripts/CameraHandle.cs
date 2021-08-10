@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,10 +6,15 @@ public class CameraHandle : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     private Vector3 previousPosition, previousPosition2;
+    GameObject Target;
+    public moveBlock control;
+    public float increm = 2f;
     float height;
     float sensitivity = 30f;
     void Start()
     {
+        Target = GameObject.Find("a bokkusu");
+        control = Target.GetComponent<moveBlock>();
         cam.transform.localPosition = new Vector3(0f, 25f, -31.8f);
         cam.transform.localEulerAngles = new Vector3(20f, 0f, 0f);
         height = 25f;
@@ -58,5 +63,29 @@ public class CameraHandle : MonoBehaviour
             cam.transform.localPosition = newPos;
             previousPosition2 = cam.ScreenToViewportPoint(Input.mousePosition);
         }
-    }
+        Vector3 current_position = cam.transform.localPosition; //theo trình tự ngược chiều kim đồng hồ
+        if ((-22 < current_position.x && current_position.x < 22) && (-32 < current_position.z && current_position.z < -22))
+        {
+            control.move = new Vector3[] { new Vector3(0, 0, increm), new Vector3(0, 0, -increm), new Vector3(-increm, 0, 0), new Vector3(increm, 0, 0) };
+            control.spin = new Vector3[] { new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 0, -1) };
+        }
+
+        else if (22 < current_position.x && current_position.x < 32)
+        {
+            control.move = new Vector3[] { new Vector3(-increm, 0, 0), new Vector3(increm, 0, 0), new Vector3(0, 0, -increm), new Vector3(0, 0, increm) };
+            control.spin = new Vector3[] { new Vector3(0, 0, 1), new Vector3(0, 0, -1), new Vector3(-1, 0, 0), new Vector3(1, 0, 0) };
+        }
+
+        else if ((-22 < current_position.x && current_position.x < 22) && (22 < current_position.z && current_position.z < 32))
+        {
+            control.move = new Vector3[] { new Vector3(0, 0, -increm), new Vector3(0, 0, increm), new Vector3(increm, 0, 0), new Vector3(-increm, 0, 0) };
+            control.spin = new Vector3[] { new Vector3(-1, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, -1), new Vector3(0, 0, 1) };
+        }
+        else if (-32 < current_position.x && current_position.x < -22)
+        {
+            control.move = new Vector3[] { new Vector3(increm, 0, 0), new Vector3(-increm, 0, 0), new Vector3(0, 0, increm), new Vector3(0, 0, -increm), };
+            control.spin = new Vector3[] {  new Vector3(0, 0, -1), new Vector3(0, 0, 1), new Vector3(1, 0, 0), new Vector3(-1, 0, 0)};
+        }
+
+        }
 }

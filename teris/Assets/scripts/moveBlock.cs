@@ -11,7 +11,8 @@ public class moveBlock : MonoBehaviour
     bool instantDrop = false;
     bool blockFall = false;
     bool[] blockMove = new bool[] { false, false, false, false, false, false, false, false }; //"up", "down", "left", "right", "w", "s", "a", "d"
-    Vector3[] move;
+    public Vector3[] move;
+    public Vector3[] spin;
     string[] name_move = new string[] { "up", "down", "left", "right", "w", "s", "a", "d" };
     int delay = -1;
     
@@ -22,8 +23,8 @@ public class moveBlock : MonoBehaviour
     {
         Target = GameObject.Find("a bokkusu");
         box = Target.GetComponent<boxScript>();
-        move = new Vector3[] { new Vector3(0, 0, increm), new Vector3(0, 0, -increm), new Vector3(-increm, 0, 0), new Vector3(increm, 0, 0),
-                               new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 0, -1)};
+        move = new Vector3[] { new Vector3(0, 0, increm), new Vector3(0, 0, -increm), new Vector3(-increm, 0, 0), new Vector3(increm, 0, 0) };
+        spin = new Vector3[] { new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 0, -1)};
     }
 
 // Update is called once per frame
@@ -72,7 +73,7 @@ void Update()
             {
                 GameObject t = Instantiate(box.blocc) as GameObject;
                 Vector3 position = t.GetComponentInChildren<Renderer>().bounds.center;
-                t.transform.RotateAround(position, move[i], 90);
+                t.transform.RotateAround(position, spin[i - 4], 90);
 
                 //code der
                 List<GameObject> ChildBloccs = new List<GameObject>();
@@ -90,7 +91,7 @@ void Update()
                 if (!box.CheckCollision(ChildBloccs, new Vector3(0, 0, 0)))
                 {
                     Vector3 p = box.blocc.GetComponentInChildren<Renderer>().bounds.center;
-                    box.blocc.transform.RotateAround(p, move[i], 90);
+                    box.blocc.transform.RotateAround(p, spin[i - 4], 90);
                 }
                 //box.blocc.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
                 blockMove[i] = false;
