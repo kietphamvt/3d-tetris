@@ -42,7 +42,7 @@ public class boxScript : MonoBehaviour
     {
 
         //Clone new random block & move to top
-        RandomBlock = Random.Range(6,6);
+        RandomBlock = Random.Range(8,8);
         blocc = Instantiate(Resources.Load("New-Block/" + (RandomBlock).ToString())) as GameObject;
         blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
 
@@ -130,15 +130,29 @@ public class boxScript : MonoBehaviour
 
     void ClearRow()
     {
+        int cnt = 0;
         for (int i = 0; i <= 20; ++i)
         {
-            if (OLDBLOCCS[i].Count == 6)
+            if (OLDBLOCCS[i].Count == 100)
             {
+                ++cnt;
                 foreach(GameObject child in OLDBLOCCS[i])
                 {
                     Destroy(child);
                 }
                 OLDBLOCCS[i].Clear();
+            }
+            else
+            {
+                if (cnt > 0)
+                {
+                    foreach (GameObject child in OLDBLOCCS[i])
+                    {
+                        child.transform.position -= new Vector3(0, 2 * cnt, 0);
+                        OLDBLOCCS[i - cnt].Add(child);
+                    }
+                    OLDBLOCCS[i].Clear();
+                }
             }
         }
     }
