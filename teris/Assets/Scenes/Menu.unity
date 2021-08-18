@@ -905,8 +905,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "4 m\u0169i t\xEAn : Di chuy\u1EC3n mi\u1EBFng tetris tr\xEAn m\u1EB7t
-    ph\u1EB3ng\r\n WASD : Xoay mi\u1EBFng tetris\r\n Spacebar : R\u01A1i nhanh h\u01A1n\r\n
-    I : Auto Drop\r\nC : Hold Block\r\nEsc : Pause\r\nChu\u1ED9t tr\xE1i : Xoay Camera\r\nChu\u1ED9t
+    ph\u1EB3ng\r\n WASD : Xoay mi\u1EBFng tetris\r\n Spacebar : R\u01A1i nhanh h\u01A1n\r\nI
+    : Auto Drop\r\nC : Hold Block\r\nEsc : Pause\r\nChu\u1ED9t tr\xE1i : Xoay Camera\r\nChu\u1ED9t
     ph\u1EA3i : \u0110i\u1EC1u ch\u1EC9nh \u0111\u1ED9 cao camera\r\nScroll : Ph\xF3ng
     to, thu nh\u1ECF Camera"
 --- !u!222 &1047803077
