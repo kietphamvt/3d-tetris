@@ -8,7 +8,7 @@ public class boxScript : MonoBehaviour
 {
     public GameHandler GameHandler;
     //Current block & its childs
-    int RandomBlock;
+    int block1, block2, block3;
     public GameObject blocc;
     public List<GameObject> ChildBloccs = new List<GameObject>();
 
@@ -20,6 +20,8 @@ public class boxScript : MonoBehaviour
 
     //Contains all old blocks (seperated) as child
     public GameObject OLDBLOCCFOLDER;
+    public GameUI Queue;
+    //public GameUI Hold;
     List<GameObject>[] OLDBLOCCS = new List<GameObject>[21];
     //cái này là cái ông cần nè, ông có thể dùng theo kiểu lấy từ list (nếu tạo script khác thì làm giống khoa) hoặc là lấy từ cái gameobject (lấy child)
 
@@ -32,18 +34,29 @@ public class boxScript : MonoBehaviour
     void Start()
     {
         //Spawn block and start time
+        block1 = Random.Range(1, 10);
+        block2 = Random.Range(1, 10);
+        block3 = Random.Range(1, 10);
         spawnBlock();
         watchu.Start();
         for (int i = 0; i < OLDBLOCCS.Length; i++)
             OLDBLOCCS[i] = new List<GameObject>();
     }
 
+    void queue_work()
+    {
+        block1 = block2;
+        block2 = block3;
+        block3 = Random.Range(1, 10);
+    }
+
     void spawnBlock()
     {
 
         //Clone new random block & move to top
-        RandomBlock = Random.Range(1,10);
-        blocc = Instantiate(Resources.Load("New-Block/" + (RandomBlock).ToString())) as GameObject;
+        blocc = Instantiate(Resources.Load("New-Block/" + (block1).ToString())) as GameObject;
+        queue_work();
+        Queue.Display(block1, block2, block3);
         blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
 
         //Add child to ChildBloccs for faster runtime

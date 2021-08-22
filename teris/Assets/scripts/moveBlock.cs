@@ -6,6 +6,7 @@ using UnityEngine;
 public class moveBlock : MonoBehaviour
 {
     public float increm = 2f;
+    public GameUI Hold;
     GameObject Target;
     public boxScript box;
     bool instantDrop = false;
