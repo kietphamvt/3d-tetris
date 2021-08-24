@@ -8,7 +8,7 @@ public class boxScript : MonoBehaviour
 {
     public GameHandler GameHandler;
     //Current block & its childs
-    int block1, block2, block3;
+    public int block1, block2, block3, temp;
     public GameObject blocc;
     public List<GameObject> ChildBloccs = new List<GameObject>();
 
@@ -20,7 +20,7 @@ public class boxScript : MonoBehaviour
 
     //Contains all old blocks (seperated) as child
     public GameObject OLDBLOCCFOLDER;
-    public GameUI Queue;
+    public GameUI Queue, Hold;
     //public GameUI Hold;
     List<GameObject>[] OLDBLOCCS = new List<GameObject>[21];
     //cái này là cái ông cần nè, ông có thể dùng theo kiểu lấy từ list (nếu tạo script khác thì làm giống khoa) hoặc là lấy từ cái gameobject (lấy child)
@@ -45,6 +45,7 @@ public class boxScript : MonoBehaviour
 
     void queue_work()
     {
+        temp = block1;
         block1 = block2;
         block2 = block3;
         block3 = Random.Range(1, 10);
@@ -52,7 +53,6 @@ public class boxScript : MonoBehaviour
 
     void spawnBlock()
     {
-
         //Clone new random block & move to top
         blocc = Instantiate(Resources.Load("New-Block/" + (block1).ToString())) as GameObject;
         queue_work();
