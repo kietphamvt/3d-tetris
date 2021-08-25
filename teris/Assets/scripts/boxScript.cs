@@ -8,9 +8,11 @@ public class boxScript : MonoBehaviour
 {
     public GameHandler GameHandler;
     //Current block & its childs
-    public int block1, block2, block3, temp;
+    int block1, block2, block3;
     public GameObject blocc;
     public List<GameObject> ChildBloccs = new List<GameObject>();
+    public bool isHold = false, newHold = true;
+    public int block_in_hold = -1, cur = -1;
 
     //Calculate time
     public Stopwatch watchu = new Stopwatch();
@@ -20,8 +22,8 @@ public class boxScript : MonoBehaviour
 
     //Contains all old blocks (seperated) as child
     public GameObject OLDBLOCCFOLDER;
-    public GameUI Queue, Hold;
-    //public GameUI Hold;
+    public GameUI Queue;
+    public GameUI Hold;
     List<GameObject>[] OLDBLOCCS = new List<GameObject>[21];
     //cái này là cái ông cần nè, ông có thể dùng theo kiểu lấy từ list (nếu tạo script khác thì làm giống khoa) hoặc là lấy từ cái gameobject (lấy child)
 
@@ -37,7 +39,8 @@ public class boxScript : MonoBehaviour
         block1 = Random.Range(1, 10);
         block2 = Random.Range(1, 10);
         block3 = Random.Range(1, 10);
-        spawnBlock();
+        spawnBlock(block1);
+        queue_work();
         watchu.Start();
         for (int i = 0; i < OLDBLOCCS.Length; i++)
             OLDBLOCCS[i] = new List<GameObject>();
@@ -45,21 +48,23 @@ public class boxScript : MonoBehaviour
 
     void queue_work()
     {
-        temp = block1;
         block1 = block2;
         block2 = block3;
         block3 = Random.Range(1, 10);
+        Queue.Display(block1, block2, block3);
     }
 
-    void spawnBlock()
+    void spawnBlock(int block1)
     {
+
         //Clone new random block & move to top
         blocc = Instantiate(Resources.Load("New-Block/" + (block1).ToString())) as GameObject;
-        queue_work();
-        Queue.Display(block1, block2, block3);
+        cur = block1;
+        //queue_work();
         blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
 
         //Add child to ChildBloccs for faster runtime
+        ChildBloccs = new List<GameObject>();
         int n = blocc.transform.childCount;
         Transform child = blocc.transform.Find("Cube");
         ChildBloccs.Add(child.gameObject);
@@ -88,6 +93,7 @@ public class boxScript : MonoBehaviour
         //If block moving down = collide
         if (FallDownCollide(blocc))
         {
+            newHold = true;
             do
             {
                 if (blocc.transform.position == new Vector3(0.8f, 40, -0.99f)) 
@@ -109,8 +115,8 @@ public class boxScript : MonoBehaviour
                     OLDBLOCCS[id].Add(child);
                 }
                 ClearRow();
-                ChildBloccs = new List<GameObject>();
-                spawnBlock();
+                spawnBlock(block1);
+                queue_work();
             } while (false);
             
         }
@@ -118,6 +124,28 @@ public class boxScript : MonoBehaviour
         {
             //No collision --> move down
             blocc.transform.position -= new Vector3(0, increm, 0);
+            if (isHold)
+            {
+                isHold = false;
+                newHold = false;
+                if (block_in_hold == -1)
+                {
+                    block_in_hold = cur;
+                    Hold.HoldBlock(block_in_hold);
+                    Destroy(blocc);
+                    spawnBlock(block1);
+                    queue_work();
+                }
+                else
+                {
+                    int tmp = block_in_hold;
+                    block_in_hold = cur;
+                    cur = tmp;
+                    Hold.HoldBlock(block_in_hold);
+                    Destroy(blocc);
+                    spawnBlock(cur);
+                }
+            }
         }
     }
 

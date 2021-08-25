@@ -6,12 +6,12 @@ using UnityEngine;
 public class moveBlock : MonoBehaviour
 {
     public float increm = 2f;
+    public GameUI Hold;
     GameObject Target;
     public boxScript box;
     bool instantDrop = false;
     bool blockFall = false;
     bool[] blockMove = new bool[] { false, false, false, false, false, false, false, false }; //"up", "down", "left", "right", "w", "s", "a", "d"
-    int hold_block = 5;
     public Vector3[] move;
     public Vector3[] spin;
     string[] name_move = new string[] { "up", "down", "left", "right", "w", "s", "a", "d" };
@@ -29,7 +29,7 @@ public class moveBlock : MonoBehaviour
     }
 
 // Update is called once per frame
-    void Update()
+void Update()
     {
         if (Input.GetKey(KeyCode.Space) && time.ElapsedMilliseconds > delay)
         {
@@ -49,19 +49,9 @@ public class moveBlock : MonoBehaviour
         {
             instantDrop = true;
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && box.newHold)
         {
-                hold_block = box.temp;
-                box.Hold.HoldBlock(box.temp);
-                /*if (hold_block != -1)
-                {
-                    temp = hold_block;
-                    blocc = Instantiate(Resources.Load("New-Block/" + (temp).ToString())) as GameObject;
-                    blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
-                }
-                else
-                    spawnBlock();*/
-            
+            box.isHold = true;
         }
     }
     private void FixedUpdate()
