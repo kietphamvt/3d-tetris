@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MenuHandler : MonoBehaviour
 {
     public HelpScreen HelpScreen;
+    public HelpScreen CreditScreen;
     // Start is called before the first frame update
     public void StartGame()
     {
@@ -15,5 +16,10 @@ public class MenuHandler : MonoBehaviour
     public void Help()
     {
         HelpScreen.Setup();
+    }
+
+    public void Credit()
+    {
+        CreditScreen.Setup();
     }
 }
