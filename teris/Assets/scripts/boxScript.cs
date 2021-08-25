@@ -27,7 +27,7 @@ public class boxScript : MonoBehaviour
     List<GameObject>[] OLDBLOCCS = new List<GameObject>[21];
     //cái này là cái ông cần nè, ông có thể dùng theo kiểu lấy từ list (nếu tạo script khác thì làm giống khoa) hoặc là lấy từ cái gameobject (lấy child)
 
-    bool failed = false;
+    public bool failed = false;
 
     //How much a block drops after <iterate> seconds
     public float increm = 2f;

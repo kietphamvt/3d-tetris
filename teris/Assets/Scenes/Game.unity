@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 43740765}
   - component: {fileID: 43740767}
   - component: {fileID: 43740766}
+  - component: {fileID: 43740768}
   m_Layer: 5
   m_Name: Pause
   m_TagString: Untagged
@@ -199,6 +200,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43740764}
   m_CullTransparentMesh: 1
+--- !u!114 &43740768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43740764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628a85d444960a242bf42cd6b1e4be3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxScript: {fileID: 399130786}
+  Paused: 0
 --- !u!1 &155911450
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,6 +471,7 @@ MonoBehaviour:
   OLDBLOCCFOLDER: {fileID: 1089652627}
   Queue: {fileID: 1315610102}
   Hold: {fileID: 494086114}
+  failed: 0
   increm: 2
 --- !u!114 &399130788
 MonoBehaviour:
@@ -689,6 +705,7 @@ MonoBehaviour:
   cam: {fileID: 963194227}
   control: {fileID: 0}
   increm: 2
+  box: {fileID: 399130786}
 --- !u!4 &667372438
 Transform:
   m_ObjectHideFlags: 0
@@ -984,6 +1001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameOverScreen: {fileID: 926065505}
+  PauseScript: {fileID: 43740768}
 --- !u!1 &979012798
 GameObject:
   m_ObjectHideFlags: 0

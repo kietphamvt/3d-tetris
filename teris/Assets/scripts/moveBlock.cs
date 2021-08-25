@@ -29,29 +29,32 @@ public class moveBlock : MonoBehaviour
     }
 
 // Update is called once per frame
-void Update()
+    void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && time.ElapsedMilliseconds > delay)
+        if (!box.failed)
         {
-            time.Stop(); time.Reset();
-            delay = 150; 
-            blockFall = true;
-            box.watchu.Stop(); box.watchu = new Stopwatch(); box.watchu.Start();
-        }
-        for (int i=0;i< name_move.Length;++i)
-        {
-            if (Input.GetKeyDown(name_move[i]))
+            if (Input.GetKey(KeyCode.Space) && time.ElapsedMilliseconds > delay)
             {
-                blockMove[i] = true;
+                time.Stop(); time.Reset();
+                delay = 150;
+                blockFall = true;
+                box.watchu.Stop(); box.watchu = new Stopwatch(); box.watchu.Start();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            instantDrop = true;
-        }
-        if (Input.GetKeyDown(KeyCode.C) && box.newHold)
-        {
-            box.isHold = true;
+            for (int i = 0; i < name_move.Length; ++i)
+            {
+                if (Input.GetKeyDown(name_move[i]))
+                {
+                    blockMove[i] = true;
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                instantDrop = true;
+            }
+            if (Input.GetKeyDown(KeyCode.C) && box.newHold)
+            {
+                box.isHold = true;
+            }
         }
     }
     private void FixedUpdate()
