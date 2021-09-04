@@ -13,6 +13,7 @@ public class boxScript : MonoBehaviour
     public List<GameObject> ChildBloccs = new List<GameObject>();
     public bool isHold = false, newHold = true;
     public int block_in_hold = -1, cur = -1;
+    public int score = 0;
 
     //Calculate time
     public Stopwatch watchu = new Stopwatch();
@@ -24,17 +25,19 @@ public class boxScript : MonoBehaviour
     public GameObject OLDBLOCCFOLDER;
     public GameUI Queue;
     public GameUI Hold;
-    List<GameObject>[] OLDBLOCCS = new List<GameObject>[21];
+    public GameUI Score;
+    List<GameObject>[] OLDBLOCCS = new List<GameObject>[24];
     //cái này là cái ông cần nè, ông có thể dùng theo kiểu lấy từ list (nếu tạo script khác thì làm giống khoa) hoặc là lấy từ cái gameobject (lấy child)
 
     public bool failed = false;
 
     //How much a block drops after <iterate> seconds
     public float increm = 2f;
-    int iterate = 500;
+    int iterate = 1000;
 
     void Start()
     {
+        Score.DisplayScore(0);
         //Spawn block and start time
         block1 = Random.Range(1, 10);
         block2 = Random.Range(1, 10);
@@ -61,7 +64,7 @@ public class boxScript : MonoBehaviour
         blocc = Instantiate(Resources.Load("New-Block/" + (block1).ToString())) as GameObject;
         cur = block1;
         //queue_work();
-        blocc.transform.position = new Vector3(0.8f, 40, -0.99f);
+        blocc.transform.position = new Vector3(1f, 40, -1f);
 
         //Add child to ChildBloccs for faster runtime
         ChildBloccs = new List<GameObject>();
@@ -96,10 +99,10 @@ public class boxScript : MonoBehaviour
             newHold = true;
             do
             {
-                if (blocc.transform.position == new Vector3(0.8f, 40, -0.99f)) 
+                if (blocc.transform.position == new Vector3(1f, 40, -1f)) 
                 {
                     failed = true;
-                    FindObjectOfType<GameHandler>().GameOver();
+                    FindObjectOfType<GameHandler>().GameOver(score);
                     break;
                 }
                 //Get child, save child, spawn new block
@@ -174,8 +177,9 @@ public class boxScript : MonoBehaviour
         int cnt = 0;
         for (int i = 0; i <= 20; ++i)
         {
-            if (OLDBLOCCS[i].Count == 100)
+            if (OLDBLOCCS[i].Count == 36)
             {
+                ++score;
                 ++cnt;
                 foreach(GameObject child in OLDBLOCCS[i])
                 {
@@ -196,6 +200,7 @@ public class boxScript : MonoBehaviour
                 }
             }
         }
+        Score.DisplayScore(score);
     }
 
 }

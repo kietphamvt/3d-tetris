@@ -7,8 +7,9 @@ public class GameHandler : MonoBehaviour
 {
     public GameOverScreen GameOverScreen;
     public PauseScript PauseScript;
-    public void GameOver()
+    public void GameOver(int x)
     {
+        GameOverScreen.DisplayScore(x);
         GameOverScreen.Setup();
     }
 

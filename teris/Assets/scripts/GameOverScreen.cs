@@ -6,9 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class GameOverScreen : MonoBehaviour
 {
+    public Text FinalScore;
     public void Setup()
     {
         gameObject.SetActive(true);
+    }
+
+    public void DisplayScore(int x)
+    {
+        FinalScore.text = "Score : " + (x).ToString();
     }
 
     public void RestartButton()

@@ -283,7 +283,7 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 3915cd100f05c4f2b4d80929ee432901
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameOverScreen
@@ -511,7 +511,7 @@ ScriptsOnlyBuild:
     className: EventTrigger
   - hash:
       serializedVersion: 2
-      Hash: b30174d8c4097574e769ffa5e566a8ec
+      Hash: 4590242a8dbcfb6df14c2c8b792a1460
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: boxScript
@@ -643,7 +643,7 @@ ScriptsOnlyBuild:
     className: TouchInputModule
   - hash:
       serializedVersion: 2
-      Hash: 27149f9bfd85fe3ac4444c754e3e7e23
+      Hash: ce8120fb265c5bfb5e6b37f4ada1400f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameUI
